@@ -4,7 +4,10 @@ package DSA.array;
  * 归并排序
  */
 public class MergeSort implements Sort{
+
     private int[] tem;
+    private InsertionSort insertionSort = new InsertionSort();
+
     @Override
     public void sort(int[] arr) {
         tem = new int[arr.length];
@@ -17,29 +20,13 @@ public class MergeSort implements Sort{
      */
     public void merge_sort(int[] arr, int lo, int hi) {
         if(hi - lo < 15){
-            insertionSort(arr, lo, hi);
+            insertionSort.insertionSort(arr, lo, hi);
             return;
         }
         int mid = (lo + hi)>>1;
         merge_sort(arr, lo, mid);
         merge_sort(arr, mid, hi);
         merge(arr,lo,mid,hi);
-    }
-
-    /**
-     * 插入排序
-     */
-    private void insertionSort(int[] array, int lo, int hi){
-        int lef = lo;
-        lo++;
-        while(lo < hi){
-            for(int i=lo;i>lef;i--){
-                if(array[i] < array[i-1]){
-                    exchange(array,i,i-1);
-                }
-            }
-            lo++;
-        }
     }
 
     /**
