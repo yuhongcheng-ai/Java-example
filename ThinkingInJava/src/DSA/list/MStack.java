@@ -1,5 +1,7 @@
 package DSA.list;
 
+import java.util.Stack;
+
 public class MStack<E> {
 
     private MArrayList mStack;
