@@ -1,49 +1,51 @@
 package DSA.array;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-//快速排序
+/**
+ * 快速排序
+ */
 public class QuickSort implements Sort{
-    int[] arr;
+
+    private InsertionSort insertionSort = new InsertionSort();
 
     @Override
-    public void sort(int[] list) {
-        arr = list;
-        quick_sort_recursive(0, arr.length - 1);
+    public void sort(int[] arr) {
+        quick_sort(arr,0, arr.length);
     }
-    private void quick_sort_recursive(int start, int end) {
-        if (start >= end)
+
+    private void quick_sort(int[] arr,int lo, int hi) {
+        if(hi <= lo + 15) {
+            insertionSort.insertionSort(arr, lo, hi);
             return;
-        int mid = arr[end];
-        int left = start, right = end - 1;
-        while (left < right) {
-            while (arr[left] <= mid && left < right)
-                left++;
-            while (arr[right] >= mid && left < right)
-                right--;
-            exchange(arr,left, right);
         }
-        if (arr[left] >= arr[end])
-            exchange(arr,left, end);
-        else
-            left++;
-        quick_sort_recursive(start, left - 1);
-        quick_sort_recursive(left + 1, end);
-    }
-    @Override
-    public void test(int n) {
-        int [] array = getRandomList(n);
-        // show(array);
-        long startTime = System.currentTimeMillis();
-        sort(array);//迭代
-        long endTime = System.currentTimeMillis();
-        show(array);
-        System.out.println("程序运行时间：" + (endTime - startTime) + "ms");
+        int p = partition(arr, lo, hi);
+        //分别对p点前后两部分递归调用，不包括p点本身
+        quick_sort(arr,lo, p);
+        quick_sort(arr,p+1, hi);
     }
 
+    /**
+     * 切分方法
+     */
+    private int partition(int[] arr, int lo, int hi) {
+        int i = lo, j = hi; //左右指针
+        int mid = (lo + hi)/2;
+        exchange(arr,lo,mid);
+        int a = arr[lo]; // 切分元素
+        while (i < j) {  //一直循环，直至i和j相遇
+            while (i < j && a <= arr[--j]);//让j停在arr[j] < a的元素上
+            arr[i] = arr[j];
+            while (i < j && arr[++i] <= a);//让i停在a < arr[i]的元素上
+            arr[j] = arr[i];
+        }
+        arr[i] = a;//i和j相遇时把a放在它们相遇的位置
+        return i;//返回相遇的位置
+    }
+    
     public static void main(String[] args) {
-        Sort test = new QuickSort();//QuickSort:2027ms  MergeSort:2463ms
-        test.test(20);//22687ms
+        Sort quick = new QuickSort();
+        TestUtil.test(100000,quick);
+        TestUtil.test(1000000,quick);
+        TestUtil.test(10000000,quick);
+        TestUtil.test(100000000,quick);
     }
 }
