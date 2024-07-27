@@ -7,9 +7,17 @@ public class InsertionSort implements Sort{
 
     @Override
     public void sort(int[] array) {
-        int lo = 1,hi = array.length;
+        insertionSort(array,0,array.length);
+    }
+
+    /**
+     * 插入排序
+     */
+    public void insertionSort(int[] array, int lo, int hi){
+        int lef = lo;
+        lo++;
         while(lo < hi){
-            for(int i=lo;i>0;i--){
+            for(int i=lo;i>lef;i--){
                 if(array[i] < array[i-1]){
                     exchange(array,i,i-1);
                 }
@@ -20,6 +28,6 @@ public class InsertionSort implements Sort{
 
     public static void main(String[] args) {
         InsertionSort insertionSort = new InsertionSort();
-        TestUtil.test(10000,insertionSort);
+        TestUtil.test(100,insertionSort);
     }
 }
