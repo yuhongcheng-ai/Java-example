@@ -27,6 +27,20 @@ public class DynamicProgramming {
                 }
             }
         }
+        System.out.println("最长公共子序列为：");
+        lcs(sc1.length,sc2.length,sc2,table);
+    }
+
+    public void lcs(int i,int j,char[] x,int[][] Rec){
+        if(i==0||j==0) return ;
+        if(Rec[i][j]==1){
+            lcs(i-1,j-1,x,Rec);
+            System.out.println(x[i-1]);
+        }else if(Rec[i][j]==2) {
+            lcs(i-1,j,x,Rec);
+        }else{
+            lcs(i,j-1,x,Rec);
+        }
     }
 
     public int max(int x,int y){
@@ -34,8 +48,8 @@ public class DynamicProgramming {
     }
     public static void main(String[] args) {
         DynamicProgramming dp = new DynamicProgramming();
-        String s1 = "helloworld";
-        String s2 = "loop";
+        String s1 = "abcd";
+        String s2 = "abcabcc";
         dp.table = new int[s1.length()+1][s2.length()+1];
         dp.programming(dp.table,s1,s2);
         show(dp.table);
