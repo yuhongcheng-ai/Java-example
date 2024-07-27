@@ -7,6 +7,6 @@ public interface Sort {
     default void exchange(int[] array, int i, int j){
         int item = array[i];
         array[i] = array[j];
-        array[j] = item;
+        array[j] = item;//
     }
 }
